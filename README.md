@@ -41,14 +41,8 @@ Simple. Either download an executable fromm the releases page, or compile it you
 
 4. Run the app
 
-    ``` cargo run <SRT FILE PATH>```
+    ``` cargo run```
 
 ### Release:
-To use the executable file, simply place your `.srt` subtitle file you want to clean in the same folder as the executable file. Open your terminal and `cd` to the same folder.
+To use the executable file, run the executable and select the `.srt` file youd like to clean.
 
-#### Example:
-```
-cd ~\SRT_Subtitle_Cleaner\
-.\subtitle_cleaner.exe <SRT_File>
-```
-Where `<SRT_FILE>` is the name and extension of the `.srt` file you want to clean

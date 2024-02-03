@@ -2,7 +2,15 @@ use std::fs;
 use std::io;
 use std::path::PathBuf;
 use regex::Regex;
-use clap::{App, Arg};
+use rfd::{FileDialog, MessageDialog};
+
+fn dialog_box(message: &str, title: &str, level: rfd::MessageLevel) {
+    MessageDialog::new()
+        .set_title(title)
+        .set_description(message)
+        .set_level(level)
+        .show();
+}
 
 fn remove_css_font_styling(file_path: &PathBuf) -> io::Result<()> {
     let content = fs::read_to_string(file_path)?;
@@ -13,27 +21,26 @@ fn remove_css_font_styling(file_path: &PathBuf) -> io::Result<()> {
 
     fs::write(file_path, cleaned_content)?;
 
-    println!("CSS Font Styling removed from {}", file_path.to_str().unwrap());
+    dialog_box("CSS Font Styling removed successfully", "Success", rfd::MessageLevel::Info);
 
     Ok(())
 }
 
 
 fn main() {
-    let matches = App::new("SRT Subtitle Cleaner")
-        .version("1.0")
-        .author("claw726")
-        .about("Remove CSS Font Styling from SRT Subtitle files")
-        .arg(Arg::with_name("file_path")
-            .help("Path to the SRT file")
-            .required(true)
-            .index(1))
-        .get_matches();
-
-    let file_path = PathBuf::from(matches.value_of("file_path").unwrap());
-
-    remove_css_font_styling(&file_path).unwrap_or_else(|err|{
-        eprintln!("Error: {}", err);
+    if let Some(file_path) = FileDialog::new()
+        .add_filter("Subtitles", &["srt"])
+        .pick_file()
+    {
+        remove_css_font_styling(&file_path).unwrap_or_else(|err|{
+            eprintln!("Error: {}", err);
+            dialog_box("Error removing CSS Font Styling", "Error", rfd::MessageLevel::Error);
+            std::process::exit(1);
+        });
+    } else {
+        dialog_box("No file selected", "Error", rfd::MessageLevel::Error);
         std::process::exit(1);
-    }); 
+    }
 }
+
+
