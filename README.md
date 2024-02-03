@@ -27,7 +27,7 @@ Hey everyone, my name is claw726.
 Much cleaner.
 
 ## How do I use it?
-Simple. Either download an executable fromm the releases page, or compile it yourself.
+Simple. Either download an executable from the releases page, or compile it yourself.
 
 ### Compile
 0. Download and install Rust: https://www.rust-lang.org/tools/install
