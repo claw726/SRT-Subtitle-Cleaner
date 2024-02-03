@@ -1,3 +1,5 @@
+#![windows_subsystem = "windows"]
+
 use std::fs;
 use std::io;
 use std::path::PathBuf;
@@ -32,8 +34,7 @@ fn main() {
         .add_filter("Subtitles", &["srt"])
         .pick_file()
     {
-        remove_css_font_styling(&file_path).unwrap_or_else(|err|{
-            eprintln!("Error: {}", err);
+        remove_css_font_styling(&file_path).unwrap_or_else(|_|{
             dialog_box("Error removing CSS Font Styling", "Error", rfd::MessageLevel::Error);
             std::process::exit(1);
         });
